@@ -10,6 +10,11 @@ public class kwadraciki : MonoBehaviour
 	
 	private SpriteRenderer sr;
 
+	float delay = 1f;
+	float timer = 0;
+
+	bool isCounting = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +29,13 @@ public class kwadraciki : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if(isCounting){
+			timer += Time.deltaTime;
+			if (timer > delay)
+			{
+				zamien();
+			}
+		}
     }
 	
 	void OnTriggerEnter2D(Collider2D col)
@@ -36,18 +48,19 @@ public class kwadraciki : MonoBehaviour
 			ParticleSystem x = col.gameObject.GetComponent<ParticleSystem>();
 
 			x.Play();
+
+			timer = 0;
+			isCounting = true;
 		}
 
 	}
 	
-	void OnTriggerExit2D(Collider2D col)
+
+	void zamien()
 	{
-		
-		if ((col.gameObject.tag == "1" || col.gameObject.tag == "2" || col.gameObject.tag == "3" || col.gameObject.tag == "4" || col.gameObject.tag == "5" || col.gameObject.tag == "6") && !czy_zyzne)
-		{
-			sr.sprite = op;
-			czy_zyzne = true;
-			PlayerPrefs.SetInt("ile", PlayerPrefs.GetInt("ile")+1);
-		}
+		sr.sprite = op;
+		czy_zyzne = true;
+		PlayerPrefs.SetInt("ile", PlayerPrefs.GetInt("ile")+1);
+		isCounting = false;
 	}
 }

@@ -15,21 +15,18 @@ private void Start()
 {
     slider.onValueChanged.AddListener(delegate { SliderValueChangedCallback(); });
 
-    // assuring that our slider is setup properly to map values
     slider.minValue = 0;
     slider.maxValue = yourValueList.Count - 1;
     slider.wholeNumbers = true;
 }
 
 /// <summary>
-/// Called when our slider value changes
 /// </summary>
+
 private void SliderValueChangedCallback()
 {
-    // grab out numeric value of the slider - cast to int as the value should be a whole number
     int numericSliderValue = (int)slider.value;
-
-    // debugging - do whatever you want with this value
+    
     currentValue.text = yourValueList[numericSliderValue];
 
     PlayerPrefs.SetInt("dlugosc", (int)slider.value);

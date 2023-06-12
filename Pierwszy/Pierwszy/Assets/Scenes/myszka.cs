@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class szczur : MonoBehaviour
+public class myszka : MonoBehaviour
 {
 
     float x;

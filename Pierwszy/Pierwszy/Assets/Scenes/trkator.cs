@@ -14,6 +14,10 @@ public class trkator : MonoBehaviour
     private float angle; // obecny kąt do celu
     private Vector3 moveOffset;
 
+    public Transform cam;
+
+    Vector3 camPos;
+
     Vector3 Cel;
 
     //int target = 0;
@@ -40,11 +44,14 @@ public class trkator : MonoBehaviour
         else if(PlayerPrefs.GetInt("dlugosc") == 4) m24[PlayerPrefs.GetInt("ilosc")].SetActive(true);
         else if(PlayerPrefs.GetInt("dlugosc") == 5) m27[PlayerPrefs.GetInt("ilosc")].SetActive(true);
 
-        if(PlayerPrefs.GetInt("szybkosc") == 0) speed = 0.5f;
-        else if(PlayerPrefs.GetInt("szybkosc") == 1) speed = 1;
-        else if(PlayerPrefs.GetInt("szybkosc") == 2) speed = 1.5f;
-        else if(PlayerPrefs.GetInt("szybkosc") == 3) speed = 2f;
-        else if(PlayerPrefs.GetInt("szybkosc") == 4) speed = 2.5f;
+        if(PlayerPrefs.GetInt("szybkosc") == 0) speed *= 0.0833333333f;
+        else if(PlayerPrefs.GetInt("szybkosc") == 1) speed *= 0.16666666666f;
+        else if(PlayerPrefs.GetInt("szybkosc") == 2) speed *= 0.25f;
+        else if(PlayerPrefs.GetInt("szybkosc") == 3) speed *= 0.3333333333f;
+        else if(PlayerPrefs.GetInt("szybkosc") == 4) speed *= 0.4166666666666f;
+        else if(PlayerPrefs.GetInt("szybkosc") == 5) speed *= 0.5f;
+
+
         
 
     }
@@ -68,16 +75,23 @@ public class trkator : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + offset));
 
         */
+        if(Input.GetMouseButtonDown(0)){
+            camPos = cam.position;
+        }
+
 
         if(Input.GetMouseButtonUp(0) && canMove){
 
-            canMove = false;
-            Cel = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Cel.z = transform.position.z;
+            if(camPos == cam.position)
+            {
+                canMove = false;
+                Cel = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Cel.z = transform.position.z;
 
-            dystans += Vector2.Distance(transform.position, Cel) * 17.65f;
+                dystans += Vector2.Distance(transform.position, Cel) * 17.65f;
 
-            PlayerPrefs.SetFloat("m", dystans);
+                PlayerPrefs.SetFloat("m", dystans);
+            }
 
         }
 
@@ -91,8 +105,6 @@ public class trkator : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + offset));
 
         if(transform.position == Cel) canMove = true;
-
-        Debug.Log(dystans);
         
 		
 		/*wspolrzedneX.text = stX.ToString()+"."+mX.ToString()+"'"+sX.ToString()+'"'+"N";
